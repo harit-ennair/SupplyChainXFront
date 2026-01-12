@@ -1,0 +1,52 @@
+<div class="supplier-container">
+  <div class="header">
+    <h2>Suppliers Management</h2>
+    <p class="subtitle">Manage and view all registered suppliers</p>
+  </div>
+
+
+  <div class="suppliers-grid">
+    @for (supplier of suppliers(); track supplier.idSupplier) {
+      <div class="supplier-card">
+        <div class="card-header">
+          <h3 class="supplier-name">{{ supplier.name }}</h3>
+          <span class="supplier-id">ID: {{ supplier.idSupplier }}</span>
+        </div>
+
+        <div class="card-content">
+          <div class="info-item">
+            <span class="label">Contact:</span>
+            <span class="value">{{ supplier.contact }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Rating:</span>
+            <div class="rating">
+              <span class="rating-value">{{ supplier.rating }}</span>
+              <div class="stars">
+                @for (star of [1,2,3,4,5]; track star) {
+                  <span
+                    class="star"
+                    [class.filled]="star <= supplier.rating">
+                    ★
+                  </span>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Lead Time:</span>
+            <span class="value">{{ supplier.leadTime }} days</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h3>No Suppliers Found</h3>
+        <p>There are no suppliers registered in the system yet.</p>
+      </div>
+    }
+  </div>
+</div>
