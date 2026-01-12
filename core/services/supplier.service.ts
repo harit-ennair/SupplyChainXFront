@@ -19,8 +19,10 @@ export class SupplierService {
     return this.http.post<SupplierRequest>(this.apiUrl, supplier);
   }
 
-
-
+  updateSupplier(supplierId: number, supplier: SupplierRequest){
+    const url = `${this.apiUrl}/${supplierId}`;
+    return this.http.put<SupplierRequest>(url, supplier);
+  }
 
 
   deleteSupplier(supplierId: number){

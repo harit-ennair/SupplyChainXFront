@@ -8,12 +8,20 @@
   <div class="suppliers-grid">
     @for (supplier of suppliers(); track supplier.idSupplier) {
       <div class="supplier-card">
-        <button
-          class="delete-btn"
-          (click)="deleteSupplier(supplier.idSupplier)"
-          title="Delete supplier">
-          🗑️
-        </button>
+        <div class="card-actions">
+          <button
+            class="update-btn"
+            (click)="updateSupplier(supplier.idSupplier)"
+            title="Update supplier">
+            ✏️
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteSupplier(supplier.idSupplier)"
+            title="Delete supplier">
+            🗑️
+          </button>
+        </div>
 
         <div class="card-header">
           <div class="header-info">

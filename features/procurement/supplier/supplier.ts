@@ -1,6 +1,7 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {SupplierService} from '../../../core/services/supplier.service';
 import {SupplierResponse} from '../../../models/supplier.model';
+import {SupplierCreate} from '../supplier-create/supplier-create';
 
 @Component({
   selector: 'app-supplier',
@@ -11,6 +12,7 @@ import {SupplierResponse} from '../../../models/supplier.model';
 export class Supplier implements OnInit {
 
   private supplierService = inject(SupplierService);
+  private supplier = inject(SupplierCreate);
   protected suppliers = signal<SupplierResponse[]>([]);
 
 
@@ -26,6 +28,12 @@ export class Supplier implements OnInit {
     this.supplierService.deleteSupplier(supplierId).subscribe(() => {
       this.loadSupplier();
     });
+  }
+
+  updateSupplier(supplierId: number){
+    this.supplier.supplierIdToUpdate = supplierId;
+    return this.supplier.onSubmit();
+
   }
 
 }

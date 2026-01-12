@@ -12,7 +12,7 @@ import {SupplierService} from '../../../core/services/supplier.service';
 export class SupplierCreate {
 
   private supplierService = inject(SupplierService);
-
+  public supplierIdToUpdate: number | null = null;
 
   private fb = inject(FormBuilder);
   public supplierForm = this.fb.group({
@@ -22,20 +22,36 @@ export class SupplierCreate {
     leadTime: [0, [Validators.required, Validators.min(1)]]
   });
 
-  onSubmit(){
-    if (this.supplierForm.valid) {
-      const formValue = this.supplierForm.value;
-      const supplierRequest: SupplierRequest = {
-        name: formValue.name || '',
-        contact: formValue.contact || '',
-        rating: Number(formValue.rating) || 0,
-        leadTime: Number(formValue.leadTime) || 0
-      };
+  onSubmit() {
+    if (this.supplierForm.invalid) return;
 
-      this.supplierService.createSupplier(supplierRequest).subscribe(() => {
-        this.supplierForm.reset();
-      });
+    const supplierRequest: SupplierRequest = {
+      name: this.supplierForm.value.name!,
+      contact: this.supplierForm.value.contact!,
+      rating: Number(this.supplierForm.value.rating),
+      leadTime: Number(this.supplierForm.value.leadTime)
+    };
+
+    if (this.supplierIdToUpdate) {
+      // UPDATE
+      this.supplierService
+        .updateSupplier(this.supplierIdToUpdate, supplierRequest)
+        .subscribe(() => {
+          this.resetForm();
+        });
+    } else {
+      // CREATE
+      this.supplierService
+        .createSupplier(supplierRequest)
+        .subscribe(() => {
+          this.resetForm();
+        });
     }
+  }
+
+  resetForm() {
+    this.supplierForm.reset();
+    this.supplierIdToUpdate = null;
   }
 
 }
