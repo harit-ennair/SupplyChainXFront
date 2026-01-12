@@ -1,5 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
 import {SupplierRequest} from '../../../models/supplier.model';
 import {SupplierService} from '../../../core/services/supplier.service';
 import {SupplierStateService} from '../../../core/services/supplier-state.service';
@@ -14,7 +15,11 @@ export class SupplierCreate implements OnInit {
 
   private supplierService = inject(SupplierService);
   private supplierStateService = inject(SupplierStateService);
+  private router = inject(Router);
+
   public supplierIdToUpdate: number | null = null;
+  public isLoading = false;
+  public isEditMode = false;
 
   private fb = inject(FormBuilder);
   public supplierForm = this.fb.group({
@@ -28,17 +33,22 @@ export class SupplierCreate implements OnInit {
     const supplierToEdit = this.supplierStateService.getCurrentSupplier();
     if (supplierToEdit) {
       this.supplierIdToUpdate = supplierToEdit.idSupplier;
+      this.isEditMode = true;
       this.supplierForm.patchValue({
         name: supplierToEdit.name,
         contact: supplierToEdit.contact,
         rating: supplierToEdit.rating,
         leadTime: supplierToEdit.leadTime
       });
+    } else {
+      this.isEditMode = false;
     }
   }
 
   onSubmit() {
     if (this.supplierForm.invalid) return;
+
+    this.isLoading = true;
 
     const supplierRequest: SupplierRequest = {
       name: this.supplierForm.value.name!,
@@ -51,24 +61,37 @@ export class SupplierCreate implements OnInit {
       // UPDATE
       this.supplierService
         .updateSupplier(this.supplierIdToUpdate, supplierRequest)
-        .subscribe(() => {
-          this.resetForm();
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.resetForm();
+            this.router.navigate(['/procurements/Supplier']);
+          }
         });
     } else {
       // CREATE
       this.supplierService
         .createSupplier(supplierRequest)
-        .subscribe(() => {
-          this.resetForm();
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.resetForm();
+            this.router.navigate(['/procurements/Supplier']);
+          }
         });
-
     }
   }
 
   resetForm() {
     this.supplierForm.reset();
     this.supplierIdToUpdate = null;
+    this.isEditMode = false;
     this.supplierStateService.clearCurrentSupplier();
+  }
+
+  cancel() {
+    this.resetForm();
+    this.router.navigate(['/procurements/Supplier']);
   }
 
 }

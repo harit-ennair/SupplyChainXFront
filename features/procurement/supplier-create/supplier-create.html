@@ -1,7 +1,7 @@
 <div class="supplier-create-container">
   <div class="form-header">
-    <h2>Create New Supplier</h2>
-    <p>Add a new supplier to your procurement system</p>
+    <h2>{{ isEditMode ? 'Edit Supplier' : 'Create New Supplier' }}</h2>
+    <p>{{ isEditMode ? 'Update supplier information' : 'Add a new supplier to your procurement system' }}</p>
   </div>
 
   <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" class="supplier-form">
@@ -67,11 +67,14 @@
     </div>
 
     <div class="form-actions">
-      <button type="button" class="btn-secondary" (click)="supplierForm.reset()">
+      <button type="button" class="btn-secondary" (click)="cancel()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button type="button" class="btn-secondary" (click)="resetForm()" [disabled]="isLoading">
         Reset
       </button>
-      <button type="submit" class="btn-primary" [disabled]="supplierForm.invalid">
-        Create Supplier
+      <button type="submit" class="btn-primary" [disabled]="supplierForm.invalid || isLoading">
+        {{ isLoading ? 'Processing...' : (isEditMode ? 'Update Supplier' : 'Create Supplier') }}
       </button>
     </div>
   </form>
