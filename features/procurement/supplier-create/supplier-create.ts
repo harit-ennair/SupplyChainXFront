@@ -1,7 +1,8 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SupplierRequest} from '../../../models/supplier.model';
 import {SupplierService} from '../../../core/services/supplier.service';
+import {SupplierStateService} from '../../../core/services/supplier-state.service';
 
 @Component({
   selector: 'app-supplier-create',
@@ -9,9 +10,10 @@ import {SupplierService} from '../../../core/services/supplier.service';
   templateUrl: './supplier-create.html',
   styleUrl: './supplier-create.css',
 })
-export class SupplierCreate {
+export class SupplierCreate implements OnInit {
 
   private supplierService = inject(SupplierService);
+  private supplierStateService = inject(SupplierStateService);
   public supplierIdToUpdate: number | null = null;
 
   private fb = inject(FormBuilder);
@@ -21,6 +23,19 @@ export class SupplierCreate {
     rating: [0, [Validators.required, Validators.min(1), Validators.max(5)]],
     leadTime: [0, [Validators.required, Validators.min(1)]]
   });
+
+  ngOnInit(): void {
+    const supplierToEdit = this.supplierStateService.getCurrentSupplier();
+    if (supplierToEdit) {
+      this.supplierIdToUpdate = supplierToEdit.idSupplier;
+      this.supplierForm.patchValue({
+        name: supplierToEdit.name,
+        contact: supplierToEdit.contact,
+        rating: supplierToEdit.rating,
+        leadTime: supplierToEdit.leadTime
+      });
+    }
+  }
 
   onSubmit() {
     if (this.supplierForm.invalid) return;
@@ -46,12 +61,14 @@ export class SupplierCreate {
         .subscribe(() => {
           this.resetForm();
         });
+
     }
   }
 
   resetForm() {
     this.supplierForm.reset();
     this.supplierIdToUpdate = null;
+    this.supplierStateService.clearCurrentSupplier();
   }
 
 }

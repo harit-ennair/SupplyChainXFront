@@ -1,7 +1,8 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
+import {Router} from '@angular/router';
 import {SupplierService} from '../../../core/services/supplier.service';
 import {SupplierResponse} from '../../../models/supplier.model';
-import {SupplierCreate} from '../supplier-create/supplier-create';
+import {SupplierStateService} from '../../../core/services/supplier-state.service';
 
 @Component({
   selector: 'app-supplier',
@@ -12,7 +13,8 @@ import {SupplierCreate} from '../supplier-create/supplier-create';
 export class Supplier implements OnInit {
 
   private supplierService = inject(SupplierService);
-  private supplier = inject(SupplierCreate);
+  private router = inject(Router);
+  private supplierStateService = inject(SupplierStateService);
   protected suppliers = signal<SupplierResponse[]>([]);
 
 
@@ -31,9 +33,11 @@ export class Supplier implements OnInit {
   }
 
   updateSupplier(supplierId: number){
-    this.supplier.supplierIdToUpdate = supplierId;
-    return this.supplier.onSubmit();
-
+    const supplierToUpdate = this.suppliers().find(s => s.idSupplier === supplierId);
+    if (supplierToUpdate) {
+      this.supplierStateService.setSupplierForEdit(supplierToUpdate);
+      this.router.navigate(['/procurements/SupplierCreate']);
+    }
   }
 
 }
