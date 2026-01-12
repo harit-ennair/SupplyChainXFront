@@ -22,4 +22,10 @@ export class Supplier implements OnInit {
     this.supplierService.getSuppliers().subscribe(data => this.suppliers.set(data));
   }
 
+  deleteSupplier(supplierId: number){
+    this.supplierService.deleteSupplier(supplierId).subscribe(() => {
+      this.loadSupplier();
+    });
+  }
+
 }

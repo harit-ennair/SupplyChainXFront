@@ -8,9 +8,18 @@
   <div class="suppliers-grid">
     @for (supplier of suppliers(); track supplier.idSupplier) {
       <div class="supplier-card">
+        <button
+          class="delete-btn"
+          (click)="deleteSupplier(supplier.idSupplier)"
+          title="Delete supplier">
+          🗑️
+        </button>
+
         <div class="card-header">
-          <h3 class="supplier-name">{{ supplier.name }}</h3>
-          <span class="supplier-id">ID: {{ supplier.idSupplier }}</span>
+          <div class="header-info">
+            <h3 class="supplier-name">{{ supplier.name }}</h3>
+            <span class="supplier-id">ID: {{ supplier.idSupplier }}</span>
+          </div>
         </div>
 
         <div class="card-content">

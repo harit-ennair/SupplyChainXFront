@@ -21,4 +21,13 @@ export class SupplierService {
 
 
 
+
+
+  deleteSupplier(supplierId: number){
+    const url = `${this.apiUrl}/${supplierId}`;
+    return this.http.delete<void>(url);
+  }
+
+
+
 }

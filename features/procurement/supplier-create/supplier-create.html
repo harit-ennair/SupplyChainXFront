@@ -1,1 +1,78 @@
-<p>supplier-creat works!</p>
+<div class="supplier-create-container">
+  <div class="form-header">
+    <h2>Create New Supplier</h2>
+    <p>Add a new supplier to your procurement system</p>
+  </div>
+
+  <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" class="supplier-form">
+    <div class="form-group">
+      <label for="name" class="form-label">Supplier Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-input"
+        placeholder="Enter supplier name"
+      />
+      <div class="error-message" [class.show]="supplierForm.get('name')?.invalid && supplierForm.get('name')?.touched">
+        Supplier name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="contact" class="form-label">Contact Information</label>
+      <input
+        type="text"
+        id="contact"
+        formControlName="contact"
+        class="form-input"
+        placeholder="Enter contact information"
+      />
+      <div class="error-message" [class.show]="supplierForm.get('contact')?.invalid && supplierForm.get('contact')?.touched">
+        Contact information is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half-width">
+        <label for="rating" class="form-label">Rating (1-5)</label>
+        <input
+          type="number"
+          id="rating"
+          formControlName="rating"
+          class="form-input"
+          min="1"
+          max="5"
+          placeholder="0"
+        />
+        <div class="error-message" [class.show]="supplierForm.get('rating')?.invalid && supplierForm.get('rating')?.touched">
+          Rating must be between 1 and 5
+        </div>
+      </div>
+
+      <div class="form-group half-width">
+        <label for="leadTime" class="form-label">Lead Time (days)</label>
+        <input
+          type="number"
+          id="leadTime"
+          formControlName="leadTime"
+          class="form-input"
+          min="1"
+          placeholder="0"
+        />
+        <div class="error-message" [class.show]="supplierForm.get('leadTime')?.invalid && supplierForm.get('leadTime')?.touched">
+          Lead time must be at least 1 day
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="supplierForm.reset()">
+        Reset
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="supplierForm.invalid">
+        Create Supplier
+      </button>
+    </div>
+  </form>
+</div>
