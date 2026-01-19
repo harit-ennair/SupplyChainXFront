@@ -1,1 +1,82 @@
-<p>raw-materials-create works!</p>
+<div class="raw-materials-create-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Edit Raw Material' : 'Create New Raw Material' }}</h2>
+    <p>{{ isEditMode ? 'Update raw material information' : 'Add a new raw material to your inventory system' }}</p>
+  </div>
+
+  <form [formGroup]="rawMaterialForm" (ngSubmit)="onSubmit()" class="raw-material-form">
+    <div class="form-group">
+      <label for="name" class="form-label">Material Name</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-input"
+        placeholder="Enter material name"
+      />
+      <div class="error-message" [class.show]="rawMaterialForm.get('name')?.invalid && rawMaterialForm.get('name')?.touched">
+        Material name is required
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="unit" class="form-label">Unit of Measurement</label>
+      <input
+        type="text"
+        id="unit"
+        formControlName="unit"
+        class="form-input"
+        placeholder="e.g., kg, liters, pieces"
+      />
+      <div class="error-message" [class.show]="rawMaterialForm.get('unit')?.invalid && rawMaterialForm.get('unit')?.touched">
+        Unit of measurement is required
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group half-width">
+        <label for="stock" class="form-label">Current Stock</label>
+        <input
+          type="number"
+          id="stock"
+          formControlName="stock"
+          class="form-input"
+          min="0"
+          placeholder="0"
+        />
+        <div class="error-message" [class.show]="rawMaterialForm.get('stock')?.invalid && rawMaterialForm.get('stock')?.touched">
+          Stock must be 0 or greater
+        </div>
+      </div>
+
+      <div class="form-group half-width">
+        <label for="stockMin" class="form-label">Minimum Stock Level</label>
+        <input
+          type="number"
+          id="stockMin"
+          formControlName="stockMin"
+          class="form-input"
+          min="0"
+          placeholder="0"
+        />
+        <div class="error-message" [class.show]="rawMaterialForm.get('stockMin')?.invalid && rawMaterialForm.get('stockMin')?.touched">
+          Minimum stock must be 0 or greater
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancel()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button type="button" class="btn-secondary" (click)="resetForm()" [disabled]="isLoading">
+        Reset
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="rawMaterialForm.invalid || isLoading">
+        {{ isLoading ? 'Processing...' : (isEditMode ? 'Update Material' : 'Create Material') }}
+      </button>
+    </div>
+  </form>
+</div>
+
+

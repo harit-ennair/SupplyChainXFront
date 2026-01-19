@@ -4,6 +4,10 @@
     <p class="subtitle">Manage and view all registered suppliers</p>
   </div>
 
+  <button class="btn-add" routerLink="/procurements/SupplierCreate">
+    + Add New Supplier
+  </button>
+
 
   <div class="suppliers-grid">
     @for (supplier of suppliers(); track supplier.idSupplier) {

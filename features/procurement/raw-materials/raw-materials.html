@@ -1,1 +1,69 @@
-<p>raw-materials works!</p>
+<div class="supplier-container">
+  <div class="header">
+    <h2>Raw Materials Management</h2>
+    <p class="subtitle">Manage and view all raw materials inventory</p>
+  </div>
+
+  <button class="btn-add" routerLink="/procurements/rawMaterialCreate">
+    + Add New Raw Material
+  </button>
+
+
+  <div class="suppliers-grid">
+    @for (material of rawmaterials(); track material.idMaterial) {
+      <div class="supplier-card">
+        <div class="card-actions">
+          <button
+            class="update-btn"
+            (click)="updateMaterial(material.idMaterial)"
+            title="Update material">
+            ✏️
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteMaterial(material.idMaterial)"
+            title="Delete material">
+            🗑️
+          </button>
+        </div>
+
+        <div class="card-header">
+          <div class="header-info">
+            <h3 class="supplier-name">{{ material.name }}</h3>
+            <span class="supplier-id">ID: {{ material.idMaterial }}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="info-item">
+            <span class="label">Current Stock:</span>
+            <span class="value">{{ material.stock }} {{ material.unit }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Minimum Stock:</span>
+            <span class="value">{{ material.stockMin }} {{ material.unit }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Unit:</span>
+            <span class="value">{{ material.unit }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Stock Status:</span>
+            <span class="value" [class.low-stock]="material.stock <= material.stockMin" [class.good-stock]="material.stock > material.stockMin">
+              {{ material.stock <= material.stockMin ? '⚠️ Low Stock' : '✓ Good' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h3>No Raw Materials Found</h3>
+        <p>There are no raw materials registered in the system yet.</p>
+      </div>
+    }
+  </div>
+</div>

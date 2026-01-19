@@ -1,12 +1,14 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {SupplierService} from '../../../core/services/supplier.service';
 import {SupplierResponse} from '../../../models/supplier.model';
 import {SupplierStateService} from '../../../core/services/supplier-state.service';
 
 @Component({
   selector: 'app-supplier',
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './supplier.html',
   styleUrl: './supplier.css',
 })
