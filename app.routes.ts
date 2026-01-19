@@ -1,8 +1,17 @@
 import { Routes } from '@angular/router';
-import {SupplierCreate} from './features/procurement/supplier-create/supplier-create';
-import {RawMaterialsCreate} from './features/procurement/raw-materials-create/raw-materials-create';
 
 export const routes: Routes = [
+
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
+  },
+
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard)
+  },
 
   {
     path: 'procurements',
