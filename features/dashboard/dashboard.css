@@ -60,6 +60,10 @@
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
+.card-icon.product {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
 .card-icon svg {
   width: 32px;
   height: 32px;

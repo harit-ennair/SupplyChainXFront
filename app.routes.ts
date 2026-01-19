@@ -31,6 +31,17 @@ export const routes: Routes = [
 
 
     ]
+  },
+
+  {
+    path: 'production',
+    children: [
+
+      { path: 'products',
+        loadComponent: () => import('./features/production/product/product').then(m => m.Product) },
+
+
+    ]
   }
 
 ];
