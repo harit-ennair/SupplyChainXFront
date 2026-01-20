@@ -1,1 +1,67 @@
-<p>product works!</p>
+<div class="product-container">
+  <div class="header">
+    <h2>Products Management</h2>
+    <p class="subtitle">Manage and view all registered products</p>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn-back" routerLink="/dashboard">
+      ← Back to Dashboard
+    </button>
+    <button class="btn-add" routerLink="/production/productCreate">
+      + Add New Product
+    </button>
+  </div>
+
+
+  <div class="products-grid">
+    @for (product of products(); track product.idProduct) {
+      <div class="product-card">
+        <div class="card-actions">
+          <button
+            class="update-btn"
+            (click)="updateProduct(product.idProduct)"
+            title="Update product">
+            ✏️
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteProduct(product.idProduct)"
+            title="Delete product">
+            🗑️
+          </button>
+        </div>
+
+        <div class="card-header">
+          <div class="header-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            <span class="product-id">ID: {{ product.idProduct }}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="info-item">
+            <span class="label">Production Time:</span>
+            <span class="value">{{ product.productionTime }} days</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Cost:</span>
+            <span class="value">${{ product.cost }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Stock:</span>
+            <span class="value">{{ product.stock }} units</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h3>No Products Found</h3>
+        <p>There are no products registered in the system yet.</p>
+      </div>
+    }
+  </div>
+</div>

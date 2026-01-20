@@ -6,7 +6,7 @@ import {productRequest, productResponse} from '../../models/product.model';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductServic {
+export class ProductService {
 
   private apiUrl  = 'http://localhost:8080/api/products';
 

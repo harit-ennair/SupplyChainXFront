@@ -40,6 +40,9 @@ export const routes: Routes = [
       { path: 'products',
         loadComponent: () => import('./features/production/product/product').then(m => m.Product) },
 
+      { path: 'productCreate',
+        loadComponent: () => import('./features/production/product-create/product-create').then(m => m.ProductCreate) },
+
 
     ]
   }
