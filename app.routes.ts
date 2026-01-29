@@ -45,6 +45,20 @@ export const routes: Routes = [
 
 
     ]
+  },
+
+  {
+    path: 'livraison',
+    children: [
+
+      { path: 'customers',
+        loadComponent: () => import('./features/livrason/customer/customer').then(m => m.Customer) },
+
+      { path: 'customerCreate',
+        loadComponent: () => import('./features/livrason/customer-create/customer-create').then(m => m.CustomerCreate) },
+
+
+    ]
   }
 
 ];
