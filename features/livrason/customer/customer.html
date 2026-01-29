@@ -1,1 +1,68 @@
-<p>customer works!</p>
+<div class="customer-container">
+  <div class="header">
+    <h2>Customer Management</h2>
+    <p class="subtitle">Manage and view all customers</p>
+  </div>
+
+  <div class="action-buttons">
+    <button class="btn-back" routerLink="/dashboard">
+      ← Back to Dashboard
+    </button>
+    <button class="btn-add" routerLink="/livraison/customerCreate">
+      + Add New Customer
+    </button>
+  </div>
+
+  <div class="customers-grid">
+    @for (customer of customers(); track customer.idCustomer) {
+      <div class="customer-card">
+        <div class="card-actions">
+          <button
+            class="update-btn"
+            (click)="updateCustomer(customer.idCustomer)"
+            title="Update customer">
+            ✏️
+          </button>
+          <button
+            class="delete-btn"
+            (click)="deleteCustomer(customer.idCustomer)"
+            title="Delete customer">
+            🗑️
+          </button>
+        </div>
+
+        <div class="card-header">
+          <div class="header-info">
+            <h3 class="customer-name">{{ customer.name }}</h3>
+            <span class="customer-id">ID: {{ customer.idCustomer }}</span>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="info-item">
+            <span class="label">Email:</span>
+            <span class="value">{{ customer.email }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">Address:</span>
+            <span class="value">{{ customer.address }}</span>
+          </div>
+
+          <div class="info-item">
+            <span class="label">City:</span>
+            <span class="value">{{ customer.city }}</span>
+          </div>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <div class="empty-icon">👥</div>
+        <h3>No Customers Found</h3>
+        <p>There are no customers registered in the system yet.</p>
+      </div>
+    }
+  </div>
+</div>
+
+
